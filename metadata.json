@@ -1,0 +1,6 @@
+{
+  "name": "Olivia SDR — WhatsApp B2B Reseller CRM",
+  "description": "Apple HIG spatial glassmorphic WhatsApp outbound & qualification CRM for B2B phone reseller acquisition and RG ERP handover in Indonesia.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
