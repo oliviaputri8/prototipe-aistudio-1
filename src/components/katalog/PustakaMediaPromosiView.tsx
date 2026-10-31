@@ -60,7 +60,7 @@ export const PustakaMediaPromosiView: React.FC<PustakaMediaPromosiViewProps> = (
     }, 2000);
   };
 
-  // Active Media Table Columns (`fixedLayout={true}` — widths sum to 100%)
+  // Active Media Table Columns (`fixedLayout={true}` - widths sum to 100%)
   const activeColumns: DataTableColumn<PromotionalMediaItemDTO>[] = [
     {
       key: 'no',

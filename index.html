@@ -3,12 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Olivia SDR — WhatsApp B2B Reseller CRM</title>
+    <title>Olivia SDR - WhatsApp B2B Reseller CRM</title>
     <meta name="description" content="Apple HIG spatial glassmorphic WhatsApp outbound & qualification CRM for B2B phone reseller acquisition and RG ERP handover in Indonesia." />
-    <meta property="og:title" content="Olivia SDR — WhatsApp B2B Reseller CRM" />
+    <meta property="og:title" content="Olivia SDR - WhatsApp B2B Reseller CRM" />
     <meta property="og:description" content="Apple HIG spatial glassmorphic WhatsApp outbound & qualification CRM for B2B phone reseller acquisition and RG ERP handover in Indonesia." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function () {
+        var mode = 'auto';
+        var step = 100;
+        try {
+          var raw = localStorage.getItem('olivia_ui_scale');
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && (parsed.mode === 'auto' || parsed.mode === 'manual')) {
+              mode = parsed.mode;
+            }
+            if (parsed && [90, 100, 110, 125, 150].indexOf(Number(parsed.step)) !== -1) {
+              step = Number(parsed.step);
+            }
+          }
+        } catch (e) {}
+
+        var vw = window.innerWidth || 1280;
+        var autoPct = 100;
+        if (vw < 1280) autoPct = 90;
+        else if (vw < 1920) autoPct = 100;
+        else if (vw < 2560) autoPct = 125;
+        else autoPct = 150;
+
+        var activePct = vw < 768 ? 100 : mode === 'auto' ? autoPct : step;
+        var scale = activePct / 100;
+        var effW = vw / scale;
+        var root = document.documentElement;
+        root.style.setProperty('--ui-scale', String(scale));
+        root.style.zoom = String(scale);
+        root.setAttribute('data-ui-scale-pct', String(activePct));
+
+        var bps = [
+          ['data-bp-sm', 640],
+          ['data-bp-md', 768],
+          ['data-bp-lg', 1024],
+          ['data-bp-xl', 1280],
+          ['data-bp-2xl', 1536]
+        ];
+        for (var i = 0; i < bps.length; i++) {
+          if (effW >= bps[i][1]) root.setAttribute(bps[i][0], '');
+          else root.removeAttribute(bps[i][0]);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

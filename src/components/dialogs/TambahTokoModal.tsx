@@ -39,7 +39,7 @@ export const TambahTokoModal: React.FC<TambahTokoModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!shopName.trim()) {
-      setNameError('Nama Toko / Counter wajib diisi.');
+      setNameError('Nama toko wajib diisi.');
       return;
     }
     setNameError('');
@@ -47,7 +47,7 @@ export const TambahTokoModal: React.FC<TambahTokoModalProps> = ({
       shopName: shopName.trim(),
       whatsappNumber: whatsappNumber.trim(),
       city: city.trim() || 'Kota Medan',
-      fullAddress: fullAddress.trim() || '—',
+      fullAddress: fullAddress.trim() || 'Belum diisi',
     });
     onClose();
   };
@@ -58,7 +58,7 @@ export const TambahTokoModal: React.FC<TambahTokoModalProps> = ({
       onClose={onClose}
       size="md"
       title="Tambah Toko dari Kenalan"
-      subtitle="Masukkan data counter referensi sales secara langsung ke Bank Data Olivia SDR"
+      subtitle="Masukkan data toko referensi sales ke Bank Data Olivia SDR"
       footer={
         <>
           <Button variant="ghost" size="sm" onClick={onClose}>

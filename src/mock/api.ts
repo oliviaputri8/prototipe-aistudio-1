@@ -1,5 +1,5 @@
 /**
- * Olivia SDR — Single Typed Mock API Layer (Go REST/JSON + SSE Shapes)
+ * Olivia SDR - Single Typed Mock API Layer (Go REST/JSON + SSE Shapes)
  *
  * STAGE 1a + STAGE 1b + STAGE 2 SCOPE:
  * Contains strictly the typed DTOs, 100% fictional datasets, and pure async functions for:
@@ -9,7 +9,7 @@
  *   2. Hunter Chat / Inbox (`18-inbox`, `18b-inbox-lead`): 3-pane workspace, thread filters, solid chat transcript,
  *      spintax/price/media composer presets, and Lead Inspector with 7-layer AI cognitive memory summary
  *   3. Dialog d03 (`d03-dialog-ajukan-reseller`): Full KYC handover form to RG ERP with validation & receipt DTOs
- * - Stage 2 ("Akuisisi & Antrean" Hub — 5 Segments + Dialogs d02 & d04):
+ * - Stage 2 ("Akuisisi & Antrean" Hub - 5 Segments + Dialogs d02 & d04):
  *   1. Antrean Hari Ini (`06-antrean-hari-ini`) + Dialog d04 (`d04-dialog-tambah-nomor`):
  *      22-shop daily outreach queue, quota header, session filter, circuit-breaker banner, Card Grid + Mode Fokus
  *   2. Radar Toko HP (`03-radar-toko-hp`): WhatsApp duplicate checker against RG ERP, multi-city chips,
@@ -423,7 +423,7 @@ const NAVIGATION_HUBS: NavHubItem[] = [
         label: 'Antrean Hari Ini',
         screenCode: '06-antrean-hari-ini',
         badgeCount: 25,
-        description: 'Target aman 20–25 toko per nomor/hari dengan proteksi circuit breaker.',
+        description: 'Target aman 20-25 toko per nomor/hari dengan proteksi circuit breaker.',
       },
       {
         id: 'radar_toko',
@@ -982,7 +982,7 @@ const FICTIONAL_INBOX_WORKSPACE: HunterInboxWorkspaceDTO = {
         picName: 'Hendra Wijaya (Owner)',
         counterProfile: 'Counter etalase 2 ruko di pusat perbelanjaan HP Surabaya Selatan.',
         preferredSeries: 'iPhone 11 128GB, iPhone 12 128GB, iPhone 13 128GB (Ex-iBox)',
-        budgetRange: 'Rp 25.000.000 – Rp 40.000.000 / minggu',
+        budgetRange: 'Rp 25.000.000 - Rp 40.000.000 / minggu',
         tabooNotes: 'Tidak menerima unit layar gantian atau baterai servisan.',
         dealHistorySummary: 'Prospek baru, belum pernah transaksi di RG ERP.',
         conversationSummary: 'Responsif terhadap penawaran harga grosir dan meminta daftar harga acuan harian.',
@@ -1061,7 +1061,7 @@ const FICTIONAL_INBOX_WORKSPACE: HunterInboxWorkspaceDTO = {
         picName: 'Dian Kurniawan (Pemilik)',
         counterProfile: 'Toko utama di BEC Bandung, fokus jual beli iPhone second & baru.',
         preferredSeries: 'iPhone 13 Pro 256GB & iPhone 14 128GB (Ex-iBox / New iBox)',
-        budgetRange: 'Rp 50.000.000 – Rp 85.000.000 / minggu',
+        budgetRange: 'Rp 50.000.000 - Rp 85.000.000 / minggu',
         tabooNotes: 'Minta pengiriman berasuransi penuh via ekspedisi kilat.',
         dealHistorySummary: 'Siap registrasi KYC ke RG ERP hari ini.',
         conversationSummary: 'AI mendeteksi niat beli tinggi (permintaan syarat konsinyasi) dan melakukan eskalasi ke Sales.',
@@ -1119,7 +1119,7 @@ const FICTIONAL_INBOX_WORKSPACE: HunterInboxWorkspaceDTO = {
         picName: 'Taufik Hidayat (Owner)',
         counterProfile: 'Counter aktif di Plaza Millenium Medan sejak 2021.',
         preferredSeries: 'iPhone 12 128GB & iPhone 13 128GB',
-        budgetRange: 'Rp 20.000.000 – Rp 35.000.000 / minggu',
+        budgetRange: 'Rp 20.000.000 - Rp 35.000.000 / minggu',
         tabooNotes: 'Wajib IMEI aman permanen.',
         dealHistorySummary: 'Menunggu pengajuan ke antrean Handover RG ERP.',
         conversationSummary: 'Pemilik toko sudah setuju syarat kemitraan dan siap unggah dokumen KYC.',
@@ -2347,7 +2347,7 @@ export async function fetchAkuisisiHubBundle(
 
   const antreanHariIni: AntreanHariIniViewDTO = {
     title: 'Antrean Penjangkauan Harian',
-    subtitlePrefix: 'Target aman 20–25 toko per nomor/hari · Skor tertinggi lebih dulu',
+    subtitlePrefix: 'Target aman 20-25 toko per nomor/hari · Skor tertinggi lebih dulu',
     activeNumbersCount: 2,
     maxNumbersCapacity: 12,
     needsInspectionCount: 0,
@@ -2366,7 +2366,7 @@ export async function fetchAkuisisiHubBundle(
         'Sesuai kaidah operasional, penambahan nomor aktif memerlukan evaluasi risiko keselamatan nomor dan batas jam kerja:',
       warnings: [
         'Sesi Nomor Kantor 02 (session-02) sempat berstatus DISCONNECTED dalam 7 hari terakhir',
-        'Waktu operasional saat ini memerlukan pemantauan rasio blokir pada jam kerja sales Akun 1 (09.00–20.00 WIB)',
+        'Waktu operasional saat ini memerlukan pemantauan rasio blokir pada jam kerja sales Akun 1 (09.00-20.00 WIB)',
       ],
       confirmQuestion:
         'Apakah Anda ingin mengabaikan peringatan ini dan tetap mengaktifkan nomor baru?',
@@ -2451,14 +2451,14 @@ export async function fetchAkuisisiHubBundle(
 
   const ketepatanWaktuSla: KetepatanWaktuSlaViewDTO = {
     title: 'Ketepatan Waktu Tindak Lanjut Tim Sales',
-    subtitle: 'Monitoring komitmen waktu follow-up mitra reseller',
+    subtitle: 'Pantauan ketepatan waktu tindak lanjut ke toko',
     overallOnTimePercent: isEmpty ? 0 : 88.5,
-    avgLeadTimeLabel: isEmpty ? '—' : '42 menit',
+    avgLeadTimeLabel: isEmpty ? 'Belum ada data' : '42 menit',
     warningEscalatedCount: isEmpty ? 0 : 2,
     activeCommitmentsCount: isEmpty ? 0 : 6,
-    serverMetricEndpointNoticeTitle: 'Status Layanan Metrik SLA Terintegrasi',
+    serverMetricEndpointNoticeTitle: 'Status Layanan Metrik SLA',
     serverMetricEndpointNoticeBody:
-      'Metrik penghitungan SLA tindak lanjut sales dihitung dari selisih jadwal jatuh tempo terhadap waktu penandaan ditepati pada endpoint server Go API.',
+      'Metrik SLA tindak lanjut sales dihitung dari selisih jadwal jatuh tempo terhadap waktu penandaan ditepati pada server Go API.',
     automationRulesTitle: 'Aturan & Otomasi Ketepatan Waktu:',
     automationRules: [
       'Bot Telegram mengirimkan pengingat H-1 jam sebelum jatuh tempo ke nomor sales penanggung jawab.',
@@ -2734,12 +2734,12 @@ function buildDefaultMemoryLayers(
     {
       layerNumber: 2,
       code: 'PROFIL_COUNTER',
-      title: '2. PROFIL COUNTER',
-      summary: cityAndAddress || '—',
+      title: '2. PROFIL TOKO',
+      summary: cityAndAddress || 'Belum diisi',
       detailDescription:
-        cityAndAddress && cityAndAddress !== '—'
-          ? `Lokasi fisik counter berada di ${cityAndAddress}. Potensi trafik ritel jalan utama.`
-          : 'Alamat fisik counter belum dilengkapi di Bank Data. Perlu verifikasi saat chat berlangsung.',
+        cityAndAddress && cityAndAddress !== 'Belum diisi'
+          ? `Lokasi fisik toko berada di ${cityAndAddress}. Potensi trafik ritel jalan utama.`
+          : 'Alamat fisik toko belum dilengkapi di Bank Data. Perlu verifikasi saat chat berlangsung.',
       updatedAtWib: '29 Okt 2026 · 08.15 WIB',
     },
     {
@@ -2749,8 +2749,8 @@ function buildDefaultMemoryLayers(
       summary: preferredSeries,
       detailDescription:
         preferredSeries === 'Belum terdeteksi'
-          ? 'Asisten AI belum mendeteksi seri iPhone spesifik yang paling sering dicari oleh counter ini.'
-          : `Fokus perputaran unit counter pada seri: ${preferredSeries}.`,
+          ? 'Asisten AI belum mendeteksi seri iPhone spesifik yang paling sering dicari oleh toko ini.'
+          : `Fokus perputaran unit toko pada seri: ${preferredSeries}.`,
       updatedAtWib: '29 Okt 2026 · 08.20 WIB',
     },
     {
@@ -2760,8 +2760,8 @@ function buildDefaultMemoryLayers(
       summary: budgetRange,
       detailDescription:
         budgetRange === 'Belum terdeteksi'
-          ? 'Rentang modal belanja mingguan belum disebutkan oleh pemilik counter.'
-          : `Estimasi plafon belanja mingguan counter berada di kisaran ${budgetRange}.`,
+          ? 'Rentang modal belanja mingguan belum disebutkan oleh pemilik toko.'
+          : `Estimasi plafon belanja mingguan toko berada di kisaran ${budgetRange}.`,
       updatedAtWib: '29 Okt 2026 · 08.22 WIB',
     },
     {
@@ -2772,7 +2772,7 @@ function buildDefaultMemoryLayers(
       detailDescription:
         tabooNotes === 'Belum ada'
           ? 'Tidak ada catatan pantangan kondisi unit atau jam pengiriman pesan.'
-          : `Pantangan khusus pemilik counter: ${tabooNotes}.`,
+          : `Pantangan khusus pemilik toko: ${tabooNotes}.`,
       updatedAtWib: '29 Okt 2026 · 08.25 WIB',
     },
     {
@@ -2803,7 +2803,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     id: 'shop-138821',
     leadIdNumber: 138821,
     shopName: 'Razma Jayana Commercial Cell',
-    fullAddress: '—',
+    fullAddress: 'Belum diisi',
     city: 'Kota Jakarta Pusat',
     province: 'DKI Jakarta',
     whatsappNumber: '+6285183150917',
@@ -2817,7 +2817,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     ownershipCode: 'MINE',
     ownershipBadgeLabel: 'Dipegang Anda',
     handlerType: 'HUMAN',
-    waSessionLabel: '—',
+    waSessionLabel: 'Belum aktif',
     brandSourceLabel: 'Bank Data',
     lastUpdatedLabel: '28 Okt 2026',
     funnelStage: 'Terkontak',
@@ -2831,7 +2831,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     openFollowUps: [],
     aiMemoryLayers: buildDefaultMemoryLayers(
       'Razma Jayana Commercial Cell',
-      '—',
+      'Belum diisi',
       'Belum terdeteksi',
       'Belum terdeteksi',
       'Belum ada',
@@ -2945,7 +2945,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     ownershipCode: 'SALES_2',
     ownershipBadgeLabel: 'Dipegang Sales CRM 2',
     handlerType: 'AI',
-    waSessionLabel: '—',
+    waSessionLabel: 'Belum aktif',
     brandSourceLabel: 'Bank Data',
     lastUpdatedLabel: '8 Okt 2026',
     funnelStage: 'Sudah Disapa (Cold)',
@@ -3065,7 +3065,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
       'Dirgantara Universal Phone',
       'Kota Medan · Jl. Gatot Subroto Km 5.5 No. 48',
       'iPhone 12 & iPhone 13 Ex-iBox',
-      'Rp 30–50 Juta / minggu'
+      'Rp 30-50 Juta / minggu'
     ),
     chatMessages: [],
   },
@@ -3075,7 +3075,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     id: 'shop-19',
     leadIdNumber: 19,
     shopName: 'Bima Sakti Ponsel Utama',
-    fullAddress: 'Jl. Gatot Subroto No. 30–32, Petisah Tengah',
+    fullAddress: 'Jl. Gatot Subroto No. 30-32, Petisah Tengah',
     city: 'Kota Medan',
     province: 'Sumatera Utara',
     whatsappNumber: '+6281362604491',
@@ -3117,9 +3117,9 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     ],
     aiMemoryLayers: buildDefaultMemoryLayers(
       'Bima Sakti Ponsel Utama',
-      'Kota Medan · Jl. Gatot Subroto No. 30–32',
+      'Kota Medan · Jl. Gatot Subroto No. 30-32',
       'iPhone 13 Pro, 14 Pro Ex-iBox',
-      'Rp 75–120 Juta / minggu',
+      'Rp 75-120 Juta / minggu',
       'Tidak menerima unit rekondisi / LCD gantian',
       'Prospek Tier A baru',
       'Siap dihubungi via sesi WABA Hub Nusantara.'
@@ -3130,7 +3130,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     id: 'shop-31',
     leadIdNumber: 31,
     shopName: 'Mahkota Kencana Cellular',
-    fullAddress: 'Plaza Medan Fair Lt. 4 Blok B No. 272–277, Jl. Gatot Subroto',
+    fullAddress: 'Plaza Medan Fair Lt. 4 Blok B No. 272-277, Jl. Gatot Subroto',
     city: 'Kota Medan',
     province: 'Sumatera Utara',
     whatsappNumber: '+6282272421575',
@@ -3159,9 +3159,9 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     openFollowUps: [],
     aiMemoryLayers: buildDefaultMemoryLayers(
       'Mahkota Kencana Cellular',
-      'Kota Medan · Plaza Medan Fair Lt. 4 No. 272–277',
+      'Kota Medan · Plaza Medan Fair Lt. 4 No. 272-277',
       'iPhone 13 & 14 New iBox',
-      'Rp 60–90 Juta / minggu'
+      'Rp 60-90 Juta / minggu'
     ),
     chatMessages: [],
   },
@@ -3169,7 +3169,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     id: 'shop-88',
     leadIdNumber: 88,
     shopName: 'Intikom Nusantara Gadget',
-    fullAddress: 'Komp. Center Point Jl. Timor No. 23–27 Blok H, Medan Timur',
+    fullAddress: 'Komp. Center Point Jl. Timor No. 23-27 Blok H, Medan Timur',
     city: 'Kota Medan',
     province: 'Sumatera Utara',
     whatsappNumber: '+6285312226226',
@@ -3197,7 +3197,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     openFollowUps: [],
     aiMemoryLayers: buildDefaultMemoryLayers(
       'Intikom Nusantara Gadget',
-      'Kota Medan · Komp. Center Point Jl. Timor No. 23–27 Blok H'
+      'Kota Medan · Komp. Center Point Jl. Timor No. 23-27 Blok H'
     ),
     chatMessages: [],
   },
@@ -3238,7 +3238,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     chatMessages: [],
   },
 
-  // 5 ACTIVE RESELLERS (`08b-reseller-aktif` — "5 unit data")
+  // 5 ACTIVE RESELLERS (`08b-reseller-aktif` - "5 unit data")
   {
     id: 'shop-3164',
     leadIdNumber: 3164,
@@ -3397,7 +3397,7 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
     id: 'shop-140622',
     leadIdNumber: 140622,
     shopName: 'Nusantara Gadget Center',
-    fullAddress: 'WTC e-Mall Lt. 2 Ruang 214, Jl. Pemuda No. 27–31, Surabaya',
+    fullAddress: 'WTC e-Mall Lt. 2 Ruang 214, Jl. Pemuda No. 27-31, Surabaya',
     city: 'Kota Surabaya',
     province: 'Jawa Timur',
     whatsappNumber: '+6281134009921',
@@ -3428,14 +3428,14 @@ const FICTIONAL_DATABASE_SHOPS: DatabaseShopRowDTO[] = [
         displayLabel: 'nusantaragadgetsby.id',
       },
     ],
-    salesOwnerNote: 'Reseller utama Jawa Timur (WTC Surabaya), pengambilan 10–15 unit/minggu.',
+    salesOwnerNote: 'Reseller utama Jawa Timur (WTC Surabaya), pengambilan 10-15 unit/minggu.',
     changeHistory: [],
     openFollowUps: [],
     aiMemoryLayers: buildDefaultMemoryLayers(
       'Nusantara Gadget Center',
       'Kota Surabaya · WTC e-Mall Lt. 2 Ruang 214',
       'iPhone 13, 14, 15 New iBox & Ex-iBox',
-      'Rp 120–180 Juta / minggu',
+      'Rp 120-180 Juta / minggu',
       'Wajib faktur pajak & segel resmi',
       'Lulus ke RG ERP (ERP-HO-2026-4612)',
       'Mitra aktif prioritas Jawa Timur.'
@@ -4408,7 +4408,7 @@ export async function fetchKatalogMediaHubBundle(
         'Rentang harga grosir harian untuk sapaan awal dan negosiasi mitra toko HP di seluruh Indonesia.',
       calloutTitle: 'Katalog Acuan Indikatif Harian (Tanpa Stok Fisik / IMEI)',
       calloutBody:
-        'Harga Acuan Indikatif (Bukan Stok Fisik Mengikat — Stok Real-Time & IMEI dikelola di RG ERP). Gunakan tombol Salin Harga untuk menyisipkan rentang harga ke percakapan WhatsApp.',
+        'Harga acuan indikatif (bukan stok fisik mengikat, stok real-time dan IMEI dikelola di RG ERP). Gunakan tombol Salin Harga untuk menyisipkan rentang harga ke percakapan WhatsApp.',
       lastErpSyncWib: '29 Okt 2026 · 08.30 WIB',
       categoryFilterOptions: [
         'Semua Kategori',
@@ -4427,9 +4427,9 @@ export async function fetchKatalogMediaHubBundle(
       kpiTotalFilesSubtext: 'Berkas aktif siap distribusi lintas sesi WA',
       kpiDistributionChannelLabel: 'Sesi WA',
       kpiDistributionSubtext: 'Terhubung ke 2 sesi nomor aktif dengan Hash Caching',
-      hashCachingBlueprintTitle: 'Teknologi WhatsApp Media Hash Caching (Blueprint §3.4)',
+      hashCachingBlueprintTitle: 'Cara Kerja Cache Media WhatsApp',
       hashCachingBlueprintBody:
-        'Setiap berkas PDF/Gambar yang diunggah dihitung sidik jari SHA-256 dan disimpan sebagai Media Handle WhatsApp. Saat Sales mengirim brosur di Hunter Chat, sistem meneruskan Media Handle yang sudah ter-cache tanpa mengunggah ulang byte berkas ke server WhatsApp.',
+        'Setiap berkas PDF atau gambar yang diunggah dihitung sidik jari SHA-256 dan disimpan sebagai Media Handle WhatsApp. Saat sales mengirim brosur di Hunter Chat, sistem memakai Media Handle yang tersimpan tanpa mengunggah ulang berkas ke server WhatsApp.',
       categoryOptions: [
         'Katalog Harga (PDF/Gambar)',
         'Brosur Program',
@@ -4629,7 +4629,7 @@ export const FICTIONAL_REPLY_RATE_TIER_ROWS: ReplyRateTierRowDTO[] = [
     totalToko: 1737,
     tokoDisapa: 1,
     tokoMembalas: 1,
-    replyRateLabel: '—',
+    replyRateLabel: 'Belum cukup data',
     isValidSample: false,
     validityBadgeText: 'Data belum cukup (< 30 sampel)',
   },
@@ -4639,7 +4639,7 @@ export const FICTIONAL_REPLY_RATE_TIER_ROWS: ReplyRateTierRowDTO[] = [
     totalToko: 20003,
     tokoDisapa: 1,
     tokoMembalas: 1,
-    replyRateLabel: '—',
+    replyRateLabel: 'Belum cukup data',
     isValidSample: false,
     validityBadgeText: 'Data belum cukup (< 30 sampel)',
   },
@@ -4649,7 +4649,7 @@ export const FICTIONAL_REPLY_RATE_TIER_ROWS: ReplyRateTierRowDTO[] = [
     totalToko: 7880,
     tokoDisapa: 2,
     tokoMembalas: 2,
-    replyRateLabel: '—',
+    replyRateLabel: 'Belum cukup data',
     isValidSample: false,
     validityBadgeText: 'Data belum cukup (< 30 sampel)',
   },
@@ -4661,7 +4661,7 @@ export const FICTIONAL_REPLY_RATE_TIER_ROWS: ReplyRateTierRowDTO[] = [
     tokoMembalas: 1,
     replyRateLabel: '0.0%',
     isValidSample: true,
-    validityBadgeText: '✓ Sampel valid (8934 toko)',
+    validityBadgeText: 'Sampel valid (8.934 toko)',
   },
 ];
 
@@ -4782,7 +4782,7 @@ export async function fetchLaporanHubBundle(
       replyRateTable: {
         title: 'Tingkat Balasan Berdasarkan Kualitas Toko (Reply Rate per Tier)',
         subtitle:
-          'Evaluasi akurasi model skoring m1-overture — dihitung dari respons riil pesan pertama.',
+          'Evaluasi akurasi model skoring m1-overture berdasarkan respons riil pesan pertama.',
         thresholdBadgeText: 'Ambang Uji: Min. 30 Kontak',
         rows: isEmpty ? [] : FICTIONAL_REPLY_RATE_TIER_ROWS,
       },
@@ -4820,7 +4820,7 @@ export async function fetchLaporanHubBundle(
         tokoMembalasSubtext: 'Balasan aktif non-pamit',
         pamitMenolak: isEmpty ? 0 : periodDays === 7 ? 3 : periodDays === 30 ? 12 : 36,
         pamitMenolakSubtext: 'Status cooling-off / menolak',
-        angkaBalasLabel: isEmpty ? '—' : periodDays === 7 ? '26.2%' : periodDays === 30 ? '25.3%' : '25.6%',
+        angkaBalasLabel: isEmpty ? 'Belum ada data' : periodDays === 7 ? '26.2%' : periodDays === 30 ? '25.3%' : '25.6%',
         angkaBalasSubtext: 'Rasio respon balasan',
       },
       chartSummary: {
@@ -4837,9 +4837,9 @@ export async function fetchLaporanHubBundle(
       tierTable: isEmpty
         ? []
         : [
-            { id: 'st-tier-a', tier: 'Tier A (Skor 80–100)', disapa: 45, membalas: 18, pamit: 2, angkaBalas: '40.0%' },
-            { id: 'st-tier-b', tier: 'Tier B (Skor 60–79)', disapa: 85, membalas: 21, pamit: 6, angkaBalas: '24.7%' },
-            { id: 'st-tier-c', tier: 'Tier C (Skor 40–59)', disapa: 32, membalas: 6, pamit: 3, angkaBalas: '18.8%' },
+            { id: 'st-tier-a', tier: 'Tier A (Skor 80-100)', disapa: 45, membalas: 18, pamit: 2, angkaBalas: '40.0%' },
+            { id: 'st-tier-b', tier: 'Tier B (Skor 60-79)', disapa: 85, membalas: 21, pamit: 6, angkaBalas: '24.7%' },
+            { id: 'st-tier-c', tier: 'Tier C (Skor 40-59)', disapa: 32, membalas: 6, pamit: 3, angkaBalas: '18.8%' },
             { id: 'st-tier-x', tier: 'Tier X (Belum Diskor)', disapa: 20, membalas: 1, pamit: 1, angkaBalas: '5.0%' },
           ],
       templateTable: isEmpty

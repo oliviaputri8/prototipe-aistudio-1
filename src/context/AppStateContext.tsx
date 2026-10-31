@@ -163,12 +163,77 @@ export interface AppStateContextValue {
   highContrast: boolean;
   setHighContrast: (val: boolean) => void;
 
+  // UI Scale ("Ukuran Tampilan") Controls
+  uiScaleMode: UiScaleMode;
+  uiScaleStep: UiScaleStep;
+  autoDetectedScale: UiScaleStep;
+  effectiveUiScalePct: UiScaleStep;
+  isPhoneViewport: boolean;
+  setUiScaleMode: (mode: UiScaleMode) => void;
+  setUiScaleStep: (step: UiScaleStep) => void;
+  stepUiScaleUp: () => void;
+  stepUiScaleDown: () => void;
+  resetUiScale: () => void;
+
   // Go Backend Async State & Error Simulation (Controlled via PrototypeDevToolbar)
   asyncState: AsyncSimState;
   setAsyncState: (state: AsyncSimState) => void;
   simulateErpError: boolean;
   setSimulateErpError: (val: boolean) => void;
   reloadCurrentViewData: () => void;
+}
+
+export type UiScaleMode = 'auto' | 'manual';
+export type UiScaleStep = 90 | 100 | 110 | 125 | 150;
+export const UI_SCALE_STEPS: UiScaleStep[] = [90, 100, 110, 125, 150];
+
+function computeAutoScaleFromWidth(vw: number): UiScaleStep {
+  if (vw < 1280) return 90;
+  if (vw < 1920) return 100;
+  if (vw < 2560) return 125;
+  return 150;
+}
+
+function readStoredUiScale(): { mode: UiScaleMode; step: UiScaleStep } {
+  try {
+    const raw = localStorage.getItem('olivia_ui_scale');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const mode: UiScaleMode =
+        parsed && (parsed.mode === 'auto' || parsed.mode === 'manual') ? parsed.mode : 'auto';
+      const stepNum = Number(parsed?.step);
+      const step: UiScaleStep = UI_SCALE_STEPS.includes(stepNum as UiScaleStep)
+        ? (stepNum as UiScaleStep)
+        : 100;
+      return { mode, step };
+    }
+  } catch {}
+  return { mode: 'auto', step: 100 };
+}
+
+function syncDocumentScaleAndBreakpoints(effectivePct: UiScaleStep, viewportWidth: number) {
+  if (typeof document === 'undefined') return;
+  const scale = effectivePct / 100;
+  const effectiveWidth = viewportWidth / scale;
+  const root = document.documentElement;
+  root.style.setProperty('--ui-scale', String(scale));
+  root.style.zoom = String(scale);
+  root.setAttribute('data-ui-scale-pct', String(effectivePct));
+
+  const thresholds: Array<[string, number]> = [
+    ['data-bp-sm', 640],
+    ['data-bp-md', 768],
+    ['data-bp-lg', 1024],
+    ['data-bp-xl', 1280],
+    ['data-bp-2xl', 1536],
+  ];
+  for (const [attr, minW] of thresholds) {
+    if (effectiveWidth >= minW) {
+      root.setAttribute(attr, '');
+    } else {
+      root.removeAttribute(attr);
+    }
+  }
 }
 
 const AppStateContext = createContext<AppStateContextValue | undefined>(undefined);
@@ -237,6 +302,88 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [theme, setTheme] = useState<ThemeMode>('light');
   const [reducedTransparency, setReducedTransparency] = useState<boolean>(false);
   const [highContrast, setHighContrast] = useState<boolean>(false);
+
+  // UI Scale ("Ukuran Tampilan") state
+  const initialStoredScale = useMemo(() => readStoredUiScale(), []);
+  const [uiScaleMode, setUiScaleModeState] = useState<UiScaleMode>(initialStoredScale.mode);
+  const [uiScaleStep, setUiScaleStepState] = useState<UiScaleStep>(initialStoredScale.step);
+  const [viewportWidth, setViewportWidth] = useState<number>(() =>
+    typeof window !== 'undefined' ? window.innerWidth : 1280
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isPhoneViewport = viewportWidth < 768;
+  const autoDetectedScale = useMemo(
+    () => computeAutoScaleFromWidth(viewportWidth),
+    [viewportWidth]
+  );
+  const effectiveUiScalePct: UiScaleStep = isPhoneViewport
+    ? 100
+    : uiScaleMode === 'auto'
+      ? autoDetectedScale
+      : uiScaleStep;
+
+  useEffect(() => {
+    syncDocumentScaleAndBreakpoints(effectiveUiScalePct, viewportWidth);
+  }, [effectiveUiScalePct, viewportWidth]);
+
+  const persistUiScale = useCallback((mode: UiScaleMode, step: UiScaleStep) => {
+    try {
+      localStorage.setItem('olivia_ui_scale', JSON.stringify({ mode, step }));
+    } catch {}
+  }, []);
+
+  const setUiScaleMode = useCallback(
+    (mode: UiScaleMode) => {
+      setUiScaleModeState(mode);
+      const nextStep = mode === 'manual' && uiScaleMode === 'auto' ? autoDetectedScale : uiScaleStep;
+      if (mode === 'manual' && uiScaleMode === 'auto') {
+        setUiScaleStepState(autoDetectedScale);
+      }
+      persistUiScale(mode, nextStep);
+    },
+    [autoDetectedScale, persistUiScale, uiScaleMode, uiScaleStep]
+  );
+
+  const setUiScaleStep = useCallback(
+    (step: UiScaleStep) => {
+      setUiScaleModeState('manual');
+      setUiScaleStepState(step);
+      persistUiScale('manual', step);
+    },
+    [persistUiScale]
+  );
+
+  const stepUiScaleUp = useCallback(() => {
+    const currentPct = uiScaleMode === 'auto' ? autoDetectedScale : uiScaleStep;
+    const idx = UI_SCALE_STEPS.indexOf(currentPct);
+    const nextStep = UI_SCALE_STEPS[Math.min(UI_SCALE_STEPS.length - 1, Math.max(0, idx + 1))];
+    setUiScaleModeState('manual');
+    setUiScaleStepState(nextStep);
+    persistUiScale('manual', nextStep);
+  }, [autoDetectedScale, persistUiScale, uiScaleMode, uiScaleStep]);
+
+  const stepUiScaleDown = useCallback(() => {
+    const currentPct = uiScaleMode === 'auto' ? autoDetectedScale : uiScaleStep;
+    const idx = UI_SCALE_STEPS.indexOf(currentPct);
+    const nextStep = UI_SCALE_STEPS[Math.max(0, idx - 1)];
+    setUiScaleModeState('manual');
+    setUiScaleStepState(nextStep);
+    persistUiScale('manual', nextStep);
+  }, [autoDetectedScale, persistUiScale, uiScaleMode, uiScaleStep]);
+
+  const resetUiScale = useCallback(() => {
+    setUiScaleModeState('auto');
+    setUiScaleStepState(100);
+    persistUiScale('auto', 100);
+  }, [persistUiScale]);
 
   // Async simulation state ('success' | 'loading' | 'empty' | 'error') & ERP POST failure flag
   const [asyncState, setAsyncState] = useState<AsyncSimState>('success');
@@ -755,7 +902,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           id: `db-shop-${newLeadId}`,
           leadIdNumber: newLeadId,
           shopName: payload.shopName,
-          fullAddress: payload.fullAddress || '—',
+          fullAddress: payload.fullAddress || 'Belum diisi',
           city: payload.city || 'Indonesia',
           province: 'Indonesia',
           whatsappNumber: formattedWa,
@@ -800,8 +947,8 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             {
               layerNumber: 2,
               code: 'PROFIL_COUNTER',
-              title: 'PROFIL COUNTER',
-              summary: payload.city || '—',
+              title: 'PROFIL TOKO',
+              summary: payload.city || 'Belum diisi',
               detailDescription: payload.fullAddress || 'Belum ada rincian alamat.',
               updatedAtWib: 'Baru saja',
             },
@@ -968,7 +1115,7 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               id: `ch-${Date.now()}`,
               timestampWib: '29 Okt 2026 · 09.37 WIB',
               actorName: currentOperator?.fullName || 'Nadia Kusuma Wardani',
-              summary: `Memindahkan tier ${s.tier} → ${payload.targetTier} (Alasan: ${payload.reason})`,
+              summary: `Memindahkan tier ${s.tier} ke ${payload.targetTier} (Alasan: ${payload.reason})`,
             };
             return {
               ...s,
@@ -1471,6 +1618,16 @@ export const AppStateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setReducedTransparency,
     highContrast,
     setHighContrast,
+    uiScaleMode,
+    uiScaleStep,
+    autoDetectedScale,
+    effectiveUiScalePct,
+    isPhoneViewport,
+    setUiScaleMode,
+    setUiScaleStep,
+    stepUiScaleUp,
+    stepUiScaleDown,
+    resetUiScale,
     asyncState,
     setAsyncState,
     simulateErpError,

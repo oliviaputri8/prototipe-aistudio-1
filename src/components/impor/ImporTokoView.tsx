@@ -204,7 +204,7 @@ export const ImporTokoView: React.FC<ImporTokoViewProps> = ({
               </div>
               <div className="space-y-1">
                 <div className="text-[14px] font-bold text-[var(--text-primary)]">
-                  Klik atau seret file ke sini
+                  Klik atau seret berkas ke sini
                 </div>
                 <div className="text-[12px] text-[var(--text-secondary)]">
                   Format yang didukung: .csv atau .xlsx (Maksimum 10 MB)
@@ -220,7 +220,7 @@ export const ImporTokoView: React.FC<ImporTokoViewProps> = ({
                   fileInputRef.current?.click();
                 }}
               >
-                Pilih Berkas dari Komputer
+                Pilih berkas dari komputer
               </Button>
             </div>
           )}
@@ -298,7 +298,7 @@ export const ImporTokoView: React.FC<ImporTokoViewProps> = ({
                 <CheckCircle2 className="w-5 h-5 text-[var(--status-success)] shrink-0 mt-0.5" />
                 <div className="space-y-1 min-w-0">
                   <div className="text-[14px] font-bold text-[var(--status-success)]">
-                    Impor Data Berhasil Disimpan ke Bank Data!
+                    Impor data selesai disimpan ke Bank Data.
                   </div>
                   <div className="text-[12px] text-[var(--text-primary)]">
                     Berkas <strong className="font-semibold">{receipt.fileName}</strong> telah diproses pada {receipt.waktuWib}.
@@ -426,13 +426,13 @@ export const ImporTokoView: React.FC<ImporTokoViewProps> = ({
             <tbody className="divide-y divide-[var(--border-hairline)] bg-[var(--surface-solid)]">
               <tr>
                 <td className="px-3.5 py-2.5 font-mono font-semibold text-[var(--text-primary)]">nama</td>
-                <td className="px-3.5 py-2.5 text-[var(--status-success)] font-medium">✓ Ya</td>
+                <td className="px-3.5 py-2.5 text-[var(--status-success)] font-medium">Ya</td>
                 <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Toko ABC Cell</td>
-                <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Nama toko / counter</td>
+                <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Nama toko</td>
               </tr>
               <tr>
                 <td className="px-3.5 py-2.5 font-mono font-semibold text-[var(--text-primary)]">telepon / phone</td>
-                <td className="px-3.5 py-2.5 text-[var(--status-success)] font-medium">✓ Ya</td>
+                <td className="px-3.5 py-2.5 text-[var(--status-success)] font-medium">Ya</td>
                 <td className="px-3.5 py-2.5 text-[var(--text-secondary)] tabular-nums">0812-3456-7890</td>
                 <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Nomor WhatsApp (boleh +62 / 62 / 0 / tanpa nol)</td>
               </tr>
@@ -440,7 +440,7 @@ export const ImporTokoView: React.FC<ImporTokoViewProps> = ({
                 <td className="px-3.5 py-2.5 font-mono font-semibold text-[var(--text-primary)]">alamat</td>
                 <td className="px-3.5 py-2.5 text-[var(--text-tertiary)] font-medium">Opsional</td>
                 <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Jl. Asia Mega Mas Blk.A No.5</td>
-                <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Alamat lengkap counter</td>
+                <td className="px-3.5 py-2.5 text-[var(--text-secondary)]">Alamat lengkap toko</td>
               </tr>
               <tr>
                 <td className="px-3.5 py-2.5 font-mono font-semibold text-[var(--text-primary)]">kota</td>

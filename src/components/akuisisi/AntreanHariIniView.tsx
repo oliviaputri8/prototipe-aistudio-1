@@ -148,7 +148,7 @@ export const AntreanHariIniView: React.FC<AntreanHariIniViewProps> = ({
               <strong className="text-[var(--text-primary)]">{pendingItems.length} belum</strong> ·{' '}
               <strong className="text-[var(--status-success)]">{sentCount} sudah</strong>
               {disqualifiedCount > 0 && <span> · {disqualifiedCount} bukan target</span>}
-              <span className="hidden sm:inline"> · Target 20–25 toko/nomor</span>
+              <span className="hidden sm:inline"> · Target 20-25 toko/nomor</span>
             </p>
           </div>
 
@@ -312,7 +312,7 @@ export const AntreanHariIniView: React.FC<AntreanHariIniViewProps> = ({
               </span>
             </div>
             <p className="text-[12px] text-[var(--text-primary)] line-clamp-2">
-              “{activeWaNotice.spintaxText}”
+              {activeWaNotice.spintaxText}
             </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
@@ -331,7 +331,7 @@ export const AntreanHariIniView: React.FC<AntreanHariIniViewProps> = ({
       )}
 
       {/* ====================================================================
-       * 3A. MODE FOKUS (ONE SHOP AT A TIME — FITS 390x844 WITHOUT SCROLLING)
+       * 3A. MODE FOKUS (ONE SHOP AT A TIME - FITS 390x844 WITHOUT SCROLLING)
        * ==================================================================== */}
       {viewMode === 'focus' ? (
         <div className="max-w-2xl mx-auto">
@@ -420,7 +420,7 @@ export const AntreanHariIniView: React.FC<AntreanHariIniViewProps> = ({
                     </span>
                   </div>
                   <p className="text-[12px] text-[var(--text-secondary)] line-clamp-2">
-                    “{currentFocusShop.spintaxGreetingPreview}”
+                    {currentFocusShop.spintaxGreetingPreview}
                   </p>
                 </div>
 

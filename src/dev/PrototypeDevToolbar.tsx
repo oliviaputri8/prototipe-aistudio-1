@@ -338,7 +338,7 @@ export const PrototypeDevToolbar: React.FC = () => {
                 ? 'bg-[var(--accent-fill)] text-[var(--accent-on-fill)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
-            title="Buka Detail Toko #138821 (19-detail-toko — belum dikontak)"
+            title="Buka Detail Toko #138821 (19-detail-toko - belum dikontak)"
           >
             <Store className="w-3 h-3" />
             <span>Detail #138821</span>
@@ -351,7 +351,7 @@ export const PrototypeDevToolbar: React.FC = () => {
                 ? 'bg-[var(--accent-fill)] text-[var(--accent-on-fill)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
-            title="Buka Detail Toko #1 (19b-detail-toko-chat — dengan riwayat chat)"
+            title="Buka Detail Toko #1 (19b-detail-toko-chat - dengan riwayat chat)"
           >
             <Store className="w-3 h-3" />
             <span>Detail #1</span>

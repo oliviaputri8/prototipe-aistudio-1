@@ -67,7 +67,7 @@ export const UbahDataTokoModal: React.FC<UbahDataTokoModalProps> = ({
   useEffect(() => {
     if (!open || !shop) return;
     setShopName(shop.shopName);
-    setFullAddress(shop.fullAddress === '—' ? '' : shop.fullAddress);
+    setFullAddress(shop.fullAddress === 'Belum diisi' ? '' : shop.fullAddress);
     setCity(shop.city || '');
     setLinkType('Situs Web');
     setLinkUrl('');
@@ -84,7 +84,7 @@ export const UbahDataTokoModal: React.FC<UbahDataTokoModalProps> = ({
     onSaveShopData({
       shopId: shop.id,
       shopName: shopName.trim(),
-      fullAddress: fullAddress.trim() || '—',
+      fullAddress: fullAddress.trim() || 'Belum diisi',
       city: city.trim(),
     });
     setSavedBanner('Data identitas toko berhasil diperbarui.');
@@ -190,7 +190,7 @@ export const UbahDataTokoModal: React.FC<UbahDataTokoModalProps> = ({
               onChange={(e) => setCity(e.target.value)}
               className="w-full min-h-[44px] px-3 py-2 rounded-[var(--radius-xs)] bg-[var(--surface-solid)] border border-[var(--border-strong)] text-[14px] text-[var(--text-primary)]"
             >
-              <option value="">— belum diisi —</option>
+              <option value="">Belum diisi</option>
               {cityChoices.map((c) => (
                 <option key={c} value={c}>
                   {c}

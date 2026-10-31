@@ -1,0 +1,17 @@
+SMALL FOLLOW-UP ROUND: add one feature, the UI scale control. Do NOT restyle anything else and do NOT change mock data, DTOs or existing behavior. Work on the current project (Direction A restyle and the pink brand color already applied). Light and dark, desktop and mobile.
+
+NEW FEATURE: UI SCALE ("Ukuran Tampilan")
+Problem: on a small laptop the interface feels too dense, on a wide desktop monitor it feels too small. Add a user-controlled scale for the whole interface.
+- Control: a "Tampilan" button in the top toolbar (next to the notification bell) that opens a small glass popover with: a "-" button, the current percentage, a "+" button, a "Reset" link, and a segmented choice "Otomatis | Manual". Hit areas >= 44px on touch, visible keyboard focus, aria-labels in Indonesian. Do NOT hijack Ctrl+/Ctrl- (those belong to the browser).
+- Steps: 90%, 100%, 110%, 125%, 150%. Default is "Otomatis".
+- Otomatis picks the scale from the screen width: under 1280px = 90%, 1280-1919px = 100%, 1920-2559px = 125%, 2560px and above = 150%. Manual overrides it until the user switches back. Show which scale Otomatis is currently using ("Otomatis - 125%").
+- Persist the choice (mode + step) in localStorage, restore it before first paint (no flash of the wrong size), and guard against storage errors.
+- Scope: the entire app (shell, panels, dialogs, popovers, toasts, command palette). Phones (effective width under 768px) always stay at 100%; hide the control there.
+- Mechanism is your choice, but it MUST keep the layout correct: responsive breakpoints have to follow the EFFECTIVE width (viewport width divided by scale), otherwise 125% on a 1280px laptop would keep the wide layout and overflow. A valid approach: apply CSS `zoom` to a single root wrapper and switch Tailwind breakpoints to container queries on that wrapper (`@md:`, `@lg:`). Verify, do not assume: at 1280px viewport and 125%, the layout must behave like a 1024px screen (no horizontal scroll, no clipped panels, split view still usable or stacked cleanly).
+- The 12px minimum text size and 44px mobile target rules apply at 100%. At 90% the smallest text may render ~10.8px; that is accepted, which is why the lowest step is 90%.
+- Verify and report: screenshots-by-measurement at viewport 1280x720 with 90%/100%/125%, and 1920x1080 with 100%/125%/150%, on Semua Toko and one dialog: no horizontal overflow, number of shops visible without scrolling, list item height, panel gap.
+
+HARD RULES
+- Text contrast >= 4.5:1 over every surface, light and dark; visible keyboard focus; honor prefers-reduced-motion.
+- No new dependencies, no network calls. Keep src/design/tokens.css as the single token source. Do not change mock/api.ts.
+- Final message: files changed, `tsc --noEmit` and `vite build` results, which mechanism you used for scaling and for breakpoints, and the measurements listed under "Verify and report".

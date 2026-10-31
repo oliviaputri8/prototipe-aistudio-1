@@ -105,7 +105,7 @@ export const LaporanPeriodeView: React.FC<LaporanPeriodeViewProps> = ({
       render: (row) => (
         <span
           className={`font-semibold text-[13px] tabular-nums ${
-            row.replyRateLabel !== '—'
+            row.replyRateLabel !== 'Belum cukup data'
               ? 'text-[var(--status-success)]'
               : 'text-[var(--text-tertiary)]'
           }`}

@@ -131,8 +131,8 @@ const ShopScoreRing: React.FC<{
     <div
       className="relative inline-flex items-center justify-center shrink-0 tabular-nums"
       style={{ width: dimension, height: dimension }}
-      title={`${tier} · Skor Prioritas ${score !== null ? score : '—'}`}
-      aria-label={`${tier}, Skor ${score !== null ? Math.round(score) : 'belum dihitung'}`}
+      title={`${tier} · Skor Prioritas ${score !== null ? score : 'Belum dinilai'}`}
+      aria-label={`${tier}, Skor ${score !== null ? Math.round(score) : 'belum dinilai'}`}
     >
       <svg
         width={dimension}
@@ -174,7 +174,7 @@ const ShopScoreRing: React.FC<{
             selected ? 'text-white/90' : 'text-[var(--text-secondary)]'
           }`}
         >
-          {score !== null ? Math.round(score) : '—'}
+          {score !== null ? Math.round(score) : '-'}
         </span>
       </div>
     </div>
@@ -854,7 +854,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
                 <strong className="font-semibold text-[var(--text-primary)]">
                   {shop.city}, {shop.province}
                 </strong>{' '}
-                — {shop.fullAddress || 'Belum ada rincian jalan'}
+                · {shop.fullAddress || 'Belum diisi'}
               </span>
             </div>
           </div>
@@ -866,7 +866,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
                 {shop.tier}
               </div>
               <div className="text-[14px] text-[var(--text-secondary)] tabular-nums">
-                Skor {shop.score !== null ? shop.score : '—'}
+                {shop.score !== null ? `Skor ${shop.score}` : 'Belum dinilai'}
               </div>
               <div className="text-[13px] text-[var(--text-tertiary)] tabular-nums">
                 {shop.coveragePercent}% cakupan
@@ -912,7 +912,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
             onClick={() => onOpenCreateFollowUpForShop(shop)}
             className="min-h-[44px] flex-1 sm:flex-initial"
           >
-            + Janji
+            Catat tindak lanjut
           </Button>
 
           <Button
@@ -959,7 +959,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
               onClick={() => onOpenShopInInbox(shop)}
               className="min-h-[40px] px-3.5 py-1.5 rounded-[var(--radius-xs)] bg-[var(--surface-solid)] text-[var(--text-primary)] font-semibold text-[13px] shrink-0 cursor-pointer"
             >
-              Lanjut di Inbox →
+              Lanjut di Inbox
             </button>
           </div>
         )}
@@ -1136,7 +1136,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
                 onClick={() => handleSaveOwnerNote(shop)}
                 className="min-h-[44px] shrink-0"
               >
-                {noteSavedToast ? 'Tersimpan ✓' : 'Simpan Catatan'}
+                {noteSavedToast ? 'Tersimpan' : 'Simpan catatan'}
               </Button>
             </div>
           </div>
@@ -1180,13 +1180,13 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
           <GlassChrome variant="well" radius="md" className="p-5 md:p-6 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[13px] font-semibold text-[var(--text-secondary)]">
-                Janji Tindak Lanjut
+                Jadwal Tindak Lanjut
               </span>
               <Clock className="w-4 h-4 text-[var(--text-tertiary)]" />
             </div>
             {shop.openFollowUps.length === 0 ? (
               <p className="text-[14px] leading-[1.45] text-[var(--text-secondary)]">
-                Tidak ada janji tindak lanjut terbuka. Gunakan tombol <strong>+ Janji</strong> untuk menjadwalkan pengingat.
+                Tidak ada jadwal tindak lanjut terbuka. Gunakan tombol <strong>Catat tindak lanjut</strong> untuk menjadwalkan pengingat.
               </p>
             ) : (
               <div className="space-y-2.5">
@@ -1461,7 +1461,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
    * ========================================================================== */
   const renderDirectionA = () => (
     <div
-      aria-label="Direktori Semua Toko — Arah A Mail/Contacts Split View"
+      aria-label="Direktori Semua Toko - Arah A Mail/Contacts Split View"
       className="max-w-[1200px] w-full mx-auto space-y-4 md:space-y-6"
     >
       {/* Top macOS Window Header & Filter Bar (p-5 on mobile, md:p-6 on desktop) */}
@@ -1607,7 +1607,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
    * ========================================================================== */
   const renderDirectionB = () => (
     <div
-      aria-label="Direktori Semua Toko — Arah B Liquid Glass Floating Panels"
+      aria-label="Direktori Semua Toko - Arah B Liquid Glass Floating Panels"
       className="max-w-[1200px] w-full mx-auto space-y-4 md:space-y-6"
     >
       {/* Floating Spatial Glass Header & Toolbar Island */}
@@ -1735,7 +1735,7 @@ export const DatabaseTokoTableView: React.FC<DatabaseTokoTableViewProps> = ({
    * ========================================================================== */
   const renderDirectionC = () => (
     <div
-      aria-label="Direktori Semua Toko — Arah C iOS Large-Title Inset Lists"
+      aria-label="Direktori Semua Toko - Arah C iOS Large-Title Inset Lists"
       className="max-w-[1200px] w-full mx-auto space-y-4 md:space-y-6 pb-20"
     >
       {/* iOS Large-Title Header Card */}

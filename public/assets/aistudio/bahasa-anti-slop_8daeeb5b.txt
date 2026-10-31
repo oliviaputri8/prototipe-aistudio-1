@@ -1,0 +1,45 @@
+SMALL FOLLOW-UP ROUND: language pass only. Rewrite the visible Indonesian text of the app so it reads like it was written by a person who knows the work, not by an AI. Do NOT change layout, styling, behavior, routing, mock data values or DTO shapes (keys, types, enum values). Work on the current project, light and dark, desktop and mobile.
+
+SCOPE: every string a user can see or hear: headings, labels, buttons, tabs, placeholders, helper text, empty states, error and success messages, toasts, dialogs, tooltips, aria-labels, table headers, banners, and user-facing string values inside mock/api.ts. NOT in scope: identifiers, object keys, CSS classes, code comments, shop names, PIC names, phone numbers and other mock data values.
+
+DO NOT TOUCH (compliance text, keep word for word):
+- Greeting templates and spintax (Sapaan), bot/AI message previews, farewell (pamit) messages, price and stock replies, and any text that states a business guardrail (the bot must call itself "otomatis"; first message is sent manually by a human; stock is confirmed before transfer; COOLING_OFF behavior). These are approved copy, not yours to rewrite. Only list them in your final report so I can see what was skipped.
+
+THE RULES
+
+1. Zero em-dash and zero en-dash in visible text. Use a period, comma, colon, parentheses or a plain hyphen. Number ranges use a plain hyphen: "20-25 toko". The middle dot "·" is allowed ONLY to separate short metadata items in one line (for example "Bank Data Nasional · 133.079 unit"), never inside a sentence.
+2. Empty or missing values never render as a bare dash or blank. Use a plain word that fits the field: "Belum diisi", "Belum ada", "Belum dinilai", "Belum pernah dihubungi". Skor with no value: "Belum dinilai". Percent with no base: hide it.
+3. No emoji and no decorative symbols as text (warning triangle, info sign, check mark, folder, chart, green circle, sparkles). Status and emphasis come from the existing icon components and color plus a text label, never from an emoji in a string.
+4. No exclamation marks in UI text. "Impor selesai." not "Impor Selesai!". No quotation marks used for emphasis. No ALL CAPS sentences; short eyebrow labels may stay uppercase only if the design already uses them.
+5. Banned words and phrases (rewrite the sentence, do not swap in a synonym):
+   - Indonesian: komprehensif, krusial, dinamis, mengedepankan, mensinergikan, optimalisasi (unless it comes with a real number), lanskap, esensial, memegang peranan penting, perlu digarisbawahi, signifikan (without a comparison number), secara menyeluruh (as filler), strategis (as seasoning), berkelanjutan, inovatif, terintegrasi (unless it names a real integration), memaksimalkan potensi, menjadi kunci, berperan penting dalam, tak lepas dari, tak dapat dipungkiri, pada akhirnya (as filler), tentunya, dapat dikatakan bahwa.
+   - English: delve, tapestry, testament, crucial, vital, dynamic, landscape, seamless, robust, elevate, unlock, synergy, harness, leverage, empower, holistic, cutting-edge, game-changing, powerful, supercharge, effortless, next-gen, premium (as hype), smart (as hype).
+   - Known hit: mock/api.ts "Status Layanan Metrik SLA Terintegrasi" -> name the thing plainly, for example "Status layanan metrik SLA".
+6. Banned sentence patterns:
+   - False contrast: "bukan sekadar X, tapi Y", "bukan hanya X, melainkan Y". Say the point directly.
+   - Meta-commentary: "penting untuk dicatat bahwa", "perlu diketahui", "yang menarik adalah".
+   - Filler openers: "Selamat datang di", "Di era ...", "Dengan bangga", "Siap membantu".
+   - Padding to three items when there are two or five. Restating the same thing twice in one block. Rhetorical questions as headings.
+   - Marketing voice inside a work tool: no slogans, no "Tingkatkan", "Maksimalkan", "Rasakan".
+7. Write for a sales operator in the middle of work:
+   - Buttons and menu items are short verbs or verb phrases in sentence case: "Simpan perubahan", "Tandai ditepati", "Unggah berkas". No plus sign or arrow inside the label text.
+   - Page and section titles name the thing: "Antrean hari ini", not a slogan.
+   - Error messages say what happened and what to do next, in one or two short sentences, no apology filler, no blame: "Berkas tidak terbaca. Pilih file .xlsx atau .csv lalu coba lagi."
+   - Empty states give the fact and the next action: "Belum ada toko di antrean. Tarik antrean baru dari Radar Toko."
+   - Success messages state the result with a number when one exists: "12 toko diimpor, 3 dilewati."
+   - Keep terms consistent: one word per concept across all screens (do not alternate toko/counter/outlet, janji/tindak lanjut, impor/unggah for the same thing without reason).
+   - Vary rhythm: mix very short and longer sentences; do not open consecutive paragraphs with the same connective ("Selain itu", "Dengan demikian").
+8. Existing project rules still apply: no underscore characters in visible text ("Kesehatan Baterai", not "battery_health"); no internal codes or build labels in visible text (K-17, T-26, "Fase 3", "Stage 4a", "Tahap 4a", "PROTOTYPE" outside the dev toolbar).
+9. Do not overcorrect. Keep real explanations that help the operator decide (why a price is stale, why sending is blocked, what a score means). The target is rhetorical padding and decoration, not reasoning.
+
+VERIFY WITH REAL COMMANDS, NOT BY RE-READING
+Run these in the project root before and after, and report the counts (after must be 0 except the items you were told not to touch, which you list by file and line):
+  grep -rnE "[—–]" src --include=*.tsx --include=*.ts
+  grep -rnP "[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}\x{2B50}\x{FE0F}]" src --include=*.tsx --include=*.ts
+  grep -rniE "komprehensif|krusial|dinamis|mengedepankan|mensinergikan|optimalisasi|lanskap|esensial|signifikan|strategis|berkelanjutan|inovatif|terintegrasi|memaksimalkan|tentunya|seamless|robust|powerful|cutting-edge|bukan sekadar|bukan hanya|selamat datang|tak dapat dipungkiri|pada akhirnya|perlu digarisbawahi" src --include=*.tsx --include=*.ts
+  grep -rnE "[A-Za-z]!['\"\`<]" src --include=*.tsx --include=*.ts
+Note: the Tailwind class names "surface-elevated" contain the letters "elevate"; that is not a hit. Em-dash inside code comments may stay, but prefer to clean them.
+
+HARD RULES
+- No new dependencies, no network calls. Do not change mock/api.ts DTO shapes or enum values. Text contrast, layout and the pink brand color are untouched by this round.
+- Final message: files changed; `tsc --noEmit` and `vite build` results; the four grep counts before and after; the list of compliance strings you skipped (file and line); and 15 representative before -> after rewrites, chosen from different screens, so I can judge the tone.

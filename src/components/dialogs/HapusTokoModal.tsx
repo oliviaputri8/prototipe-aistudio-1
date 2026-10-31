@@ -72,7 +72,7 @@ export const HapusTokoModal: React.FC<HapusTokoModalProps> = ({
     >
       <form onSubmit={handleConfirm} className="space-y-4" noValidate>
         <p className="text-[13px] leading-relaxed text-[var(--text-secondary)]">
-          Toko <strong className="text-[var(--text-primary)]">“{shop.shopName}”</strong> (ID #
+          Toko <strong className="text-[var(--text-primary)]">{shop.shopName}</strong> (ID #
           {shop.leadIdNumber}) akan dihapus lunak dan dipindahkan ke halaman Terhapus.
         </p>
 

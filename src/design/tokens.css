@@ -159,6 +159,8 @@
 :root,
 [data-theme="light"] {
   color-scheme: light;
+  --ui-scale: 1;
+  --effective-vh: calc(100dvh / var(--ui-scale, 1));
 
   /* Rich Spatial Ambient Canvas & Saturated Multi-Hue Orbs Behind Glass Panels */
   --bg-canvas: #CEDDF6;

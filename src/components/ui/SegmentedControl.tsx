@@ -15,7 +15,7 @@ export interface SegmentedControlProps<T extends string> {
 }
 
 /**
- * Apple HIG Segmented Control — Level 2 navigation (`Hub > Segment`).
+ * Apple HIG Segmented Control - Level 2 navigation (`Hub > Segment`).
  * Enforces single-line labels, tabular numerals for counts, 44px touch target height,
  * and automatic horizontal scrolling of the active segment into view on mobile.
  */

@@ -1,2 +1,9 @@
 @import "tailwindcss";
 @import "./design/tokens.css";
+
+@custom-variant sm (&:where([data-bp-sm] *));
+@custom-variant md (&:where([data-bp-md] *));
+@custom-variant lg (&:where([data-bp-lg] *));
+@custom-variant xl (&:where([data-bp-xl] *));
+@custom-variant 2xl (&:where([data-bp-2xl] *));
+

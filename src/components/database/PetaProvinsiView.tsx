@@ -54,7 +54,7 @@ function getDensityTileClasses(level: 1 | 2 | 3 | 4 | 5, isSelected: boolean): s
  * - Built WITHOUT any external map library (`maplibre-gl` is NOT used).
  * - Pairs an interactive SVG/CSS Abstract Tile-Grid Map of Indonesia (38 provinces arranged
  *   geographically from Aceh in the West to Papua Pegunungan in the East) with a searchable
- *   ranked list of all 38 provinces with horizontal density bars (`4 – 4.628 toko`).
+ *   ranked list of all 38 provinces with horizontal density bars (`4 - 4.628 toko`).
  * - Includes the `10b-peta-provinsi` rocket transition state when selecting a province.
  */
 export const PetaProvinsiView: React.FC<PetaProvinsiViewProps> = ({
@@ -146,7 +146,7 @@ export const PetaProvinsiView: React.FC<PetaProvinsiViewProps> = ({
           <div className="space-y-0.5">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="px-2 py-0.5 rounded-[6px] text-[11px] font-bold bg-[var(--accent-tint)] text-[var(--accent-primary)]">
-                ● Sebaran Geografis 38 Provinsi
+                Sebaran Geografis 38 Provinsi
               </span>
               <span className="px-2 py-0.5 rounded-[6px] text-[11px] font-bold bg-[var(--surface-recessed)] text-[var(--text-primary)] tabular-nums">
                 {totalNationalShops.toLocaleString('id-ID')} toko terpetakan
@@ -202,7 +202,7 @@ export const PetaProvinsiView: React.FC<PetaProvinsiViewProps> = ({
               </p>
             </div>
             <span className="text-[11px] font-semibold text-[var(--accent-primary)] bg-[var(--accent-tint)] px-2.5 py-1 rounded-[6px]">
-              ● Aktif: {selectedProvince.provinceName} ({selectedProvince.totalShops.toLocaleString('id-ID')} toko)
+              Aktif: {selectedProvince.provinceName} ({selectedProvince.totalShops.toLocaleString('id-ID')} toko)
             </span>
           </div>
 
@@ -301,7 +301,7 @@ export const PetaProvinsiView: React.FC<PetaProvinsiViewProps> = ({
             <div>
               <div className="flex items-center gap-1.5">
                 <span className="px-2 py-0.5 rounded-[5px] text-[10px] font-bold uppercase tracking-wider bg-[var(--accent-tint)] text-[var(--accent-primary)]">
-                  ● {selectedProvince.islandGroup}
+                  {selectedProvince.islandGroup}
                 </span>
                 <span className="text-[11px] font-semibold text-[var(--text-tertiary)]">
                   Kode: {selectedProvince.provinceCode}
@@ -512,7 +512,7 @@ export const PetaProvinsiView: React.FC<PetaProvinsiViewProps> = ({
                   </span>
                   {prov.activeResellerCount > 0 ? (
                     <span className="text-[var(--status-success)] font-semibold">
-                      ● {prov.activeResellerCount} Reseller Aktif
+                      {prov.activeResellerCount} Reseller Aktif
                     </span>
                   ) : (
                     <span>Kode: {prov.provinceCode}</span>

@@ -80,12 +80,12 @@ export const KatalogHargaView: React.FC<KatalogHargaViewProps> = ({
 
   const handleCopyFullBrochure = () => {
     const lines = [
-      '*KATALOG HARGA ACUAN GROSIR IPHONE — RUMAH GADGET*',
+      '*KATALOG HARGA ACUAN GROSIR IPHONE - RUMAH GADGET*',
       `Update: ${data.lastErpSyncWib}`,
       '',
       ...filteredItems.map(
         (item) =>
-          `• *${item.modelName} (${item.capacityLabel})* [${item.warrantyBadgeShort}]: ${formatRupiah(item.minPriceIdr)} – ${formatRupiah(item.maxPriceIdr)}`
+          `- *${item.modelName} (${item.capacityLabel})* [${item.warrantyBadgeShort}]: ${formatRupiah(item.minPriceIdr)} - ${formatRupiah(item.maxPriceIdr)}`
       ),
       '',
       '_Harga acuan indikatif harian. Konfirmasi stok fisik & unit via Sales Rumah Gadget._',
@@ -98,7 +98,7 @@ export const KatalogHargaView: React.FC<KatalogHargaViewProps> = ({
   };
 
   const handleCopySingleRow = (item: PriceCatalogItemDTO) => {
-    const snippet = `${item.modelName} (${item.capacityLabel}) [${item.warrantyCategory}]: ${formatRupiah(item.minPriceIdr)} – ${formatRupiah(item.maxPriceIdr)}`;
+    const snippet = `${item.modelName} (${item.capacityLabel}) [${item.warrantyCategory}]: ${formatRupiah(item.minPriceIdr)} - ${formatRupiah(item.maxPriceIdr)}`;
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(snippet).catch(() => {});
     }
@@ -265,7 +265,7 @@ export const KatalogHargaView: React.FC<KatalogHargaViewProps> = ({
               onClick={handleCopyFullBrochure}
             >
               {copiedBrochure
-                ? 'Brosur Harga Tersalin!'
+                ? 'Brosur harga tersalin.'
                 : 'Salin Brosur Harga ke WhatsApp'}
             </Button>
             <Button

@@ -343,7 +343,7 @@ export const RadarTokoView: React.FC<RadarTokoViewProps> = ({
                       : 'text-[var(--status-success)]'
                   }`}
                 >
-                  • {row.erpCheckStatus.isDuplicate ? 'Di ERP' : 'Aman'}
+                  · {row.erpCheckStatus.isDuplicate ? 'Di ERP' : 'Aman'}
                 </span>
               )}
             </div>

@@ -20,8 +20,11 @@ import {
   ArrowRight,
   Clock,
   Lock,
+  Monitor,
+  Minus,
+  Plus,
 } from 'lucide-react';
-import { useAppState } from '../../context/AppStateContext';
+import { UI_SCALE_STEPS, useAppState } from '../../context/AppStateContext';
 import { DatabaseShopRowDTO, HubId, NavHubItem, SegmentId } from '../../mock/api';
 import { GlassChrome } from '../ui/GlassChrome';
 import { SolidCard } from '../ui/SolidCard';
@@ -171,12 +174,23 @@ export const AppShell: React.FC = () => {
     simulateErpError,
     setIsAuthenticated,
     visualDirection,
+    uiScaleMode,
+    uiScaleStep,
+    autoDetectedScale,
+    effectiveUiScalePct,
+    isPhoneViewport,
+    setUiScaleMode,
+    setUiScaleStep,
+    stepUiScaleUp,
+    stepUiScaleDown,
+    resetUiScale,
     asyncState,
     reloadCurrentViewData,
   } = useAppState();
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [notifPopoverOpen, setNotifPopoverOpen] = useState(false);
+  const [scalePopoverOpen, setScalePopoverOpen] = useState(false);
   const [aiConfirmModalOpen, setAiConfirmModalOpen] = useState(false);
   const [mobileLainnyaOpen, setMobileLainnyaOpen] = useState(false);
   const [followUpInitialLead, setFollowUpInitialLead] = useState<{
@@ -185,10 +199,12 @@ export const AppShell: React.FC = () => {
   } | null>(null);
 
   const notifContainerRef = useRef<HTMLDivElement | null>(null);
+  const scaleContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Close notification popover on navigation (activeHub or activeSegment change)
+  // Close popovers on navigation (activeHub or activeSegment change)
   useEffect(() => {
     setNotifPopoverOpen(false);
+    setScalePopoverOpen(false);
   }, [activeHub, activeSegment]);
 
   // Close notification popover on Escape key and outside click
@@ -217,6 +233,33 @@ export const AppShell: React.FC = () => {
       document.removeEventListener('pointerdown', handlePointerDown);
     };
   }, [notifPopoverOpen]);
+
+  // Close UI Scale popover on Escape key and outside click
+  useEffect(() => {
+    if (!scalePopoverOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setScalePopoverOpen(false);
+      }
+    };
+
+    const handlePointerDown = (e: MouseEvent | PointerEvent) => {
+      if (
+        scaleContainerRef.current &&
+        !scaleContainerRef.current.contains(e.target as Node)
+      ) {
+        setScalePopoverOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('pointerdown', handlePointerDown);
+    };
+  }, [scalePopoverOpen]);
 
   if (!bootstrap || !currentOperator) {
     return null;
@@ -262,7 +305,7 @@ export const AppShell: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full hig-ambient-canvas flex flex-col md:flex-row text-[var(--text-primary)]">
+    <div className="relative min-h-[var(--effective-vh)] w-full hig-ambient-canvas flex flex-col md:flex-row text-[var(--text-primary)]">
       {/* ====================================================================
        * 0. RICH SPATIAL AMBIENT COLOR BLOBS BEHIND GLASS SURFACES (Directions A, B, C)
        * ==================================================================== */}
@@ -320,8 +363,8 @@ export const AppShell: React.FC = () => {
           visualDirection === 'C' && isSplitDatabaseView ? 'hidden' : 'hidden md:flex'
         } flex-col shrink-0 sticky z-30 hig-transition ${
           visualDirection === 'B'
-            ? 'top-6 my-6 ml-6 h-[calc(100dvh-3rem)] rounded-[28px] border border-[var(--glass-border)]'
-            : 'top-0 h-screen border-r border-[var(--glass-border)]'
+            ? 'top-6 my-6 ml-6 h-[calc(var(--effective-vh)-3rem)] rounded-[28px] border border-[var(--glass-border)]'
+            : 'top-0 h-[var(--effective-vh)] border-r border-[var(--glass-border)]'
         } ${sidebarCollapsed ? 'w-[80px]' : 'w-[268px]'}`}
       >
         {/* Brand Header */}
@@ -563,13 +606,170 @@ export const AppShell: React.FC = () => {
               />
             </button>
 
+            {/* UI Scale ("Ukuran Tampilan") Button & Glass Popover (Hidden on phones < 768px) */}
+            {!isPhoneViewport && (
+              <div ref={scaleContainerRef} className="relative">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNotifPopoverOpen(false);
+                    setScalePopoverOpen((prev) => !prev);
+                  }}
+                  aria-expanded={scalePopoverOpen}
+                  aria-haspopup="dialog"
+                  aria-label={`Pengaturan ukuran tampilan, saat ini ${effectiveUiScalePct}%`}
+                  className={`min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-[var(--radius-sm)] text-[12px] font-semibold inline-flex items-center justify-center gap-1.5 border cursor-pointer hig-transition hig-focus ${
+                    scalePopoverOpen
+                      ? 'bg-[var(--accent-tint)] text-[var(--accent-primary)] border-[var(--accent-primary)]/40'
+                      : 'bg-[var(--surface-solid)]/80 hover:bg-[var(--surface-solid)] text-[var(--text-primary)] border-[var(--border-strong)]'
+                  }`}
+                >
+                  <Monitor className="w-4 h-4 text-[var(--accent-primary)] shrink-0" />
+                  <span>Tampilan</span>
+                  <span className="px-1.5 py-0.5 rounded-[4px] bg-[var(--surface-recessed)] text-[11px] font-bold text-[var(--text-secondary)] tabular-nums">
+                    {effectiveUiScalePct}%
+                  </span>
+                </button>
+
+                {scalePopoverOpen && (
+                  <div
+                    role="dialog"
+                    aria-label="Pengaturan Ukuran Tampilan"
+                    className="absolute right-0 top-12 w-76 z-50 hig-glass-floating rounded-[var(--radius-md)] border border-[var(--glass-border)] shadow-lg overflow-hidden"
+                  >
+                    <div className="px-4 py-3 border-b border-[var(--border-hairline)] flex items-center justify-between gap-2">
+                      <div>
+                        <span className="text-[13px] font-bold text-[var(--text-primary)] block">
+                          Ukuran Tampilan
+                        </span>
+                        <span className="text-[11px] font-medium text-[var(--text-secondary)] tabular-nums block mt-0.5">
+                          {uiScaleMode === 'auto'
+                            ? `Otomatis - ${autoDetectedScale}%`
+                            : `Manual - ${uiScaleStep}%`}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={resetUiScale}
+                        aria-label="Reset ukuran tampilan ke Otomatis"
+                        className="min-h-[44px] min-w-[44px] px-2.5 text-[12px] font-semibold text-[var(--accent-primary)] hover:underline inline-flex items-center justify-center cursor-pointer hig-focus rounded-[var(--radius-xs)]"
+                      >
+                        Reset
+                      </button>
+                    </div>
+
+                    <div className="p-3.5 bg-[var(--surface-solid)] space-y-3">
+                      {/* Segmented Mode Choice: Otomatis | Manual */}
+                      <div
+                        role="group"
+                        aria-label="Mode ukuran tampilan"
+                        className="grid grid-cols-2 p-1 rounded-[var(--radius-sm)] bg-[var(--surface-recessed)] border border-[var(--border-hairline)] gap-1"
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setUiScaleMode('auto')}
+                          aria-pressed={uiScaleMode === 'auto'}
+                          aria-label={`Mode Otomatis (${autoDetectedScale}%)`}
+                          className={`min-h-[44px] px-2.5 py-1.5 rounded-[var(--radius-xs)] text-[12px] font-semibold inline-flex items-center justify-center cursor-pointer tabular-nums hig-transition hig-focus ${
+                            uiScaleMode === 'auto'
+                              ? 'bg-[var(--accent-fill)] text-[var(--accent-on-fill)] shadow-xs'
+                              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                          }`}
+                        >
+                          Otomatis - {autoDetectedScale}%
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setUiScaleMode('manual')}
+                          aria-pressed={uiScaleMode === 'manual'}
+                          aria-label="Mode Manual"
+                          className={`min-h-[44px] px-2.5 py-1.5 rounded-[var(--radius-xs)] text-[12px] font-semibold inline-flex items-center justify-center cursor-pointer hig-transition hig-focus ${
+                            uiScaleMode === 'manual'
+                              ? 'bg-[var(--accent-fill)] text-[var(--accent-on-fill)] shadow-xs'
+                              : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                          }`}
+                        >
+                          Manual
+                        </button>
+                      </div>
+
+                      {/* Stepper Row: "-" button, Current Percentage, "+" button */}
+                      <div className="flex items-center justify-between gap-2 p-1.5 rounded-[var(--radius-sm)] bg-[var(--surface-recessed)] border border-[var(--border-hairline)]">
+                        <button
+                          type="button"
+                          onClick={stepUiScaleDown}
+                          disabled={effectiveUiScalePct <= UI_SCALE_STEPS[0]}
+                          aria-label="Perkecil ukuran tampilan"
+                          className="min-h-[44px] min-w-[44px] rounded-[var(--radius-xs)] bg-[var(--surface-solid)] hover:bg-[var(--surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed border border-[var(--border-strong)] text-[var(--text-primary)] inline-flex items-center justify-center cursor-pointer hig-transition hig-focus"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+
+                        <div
+                          aria-live="polite"
+                          className="text-center flex-1 min-w-0 px-2"
+                        >
+                          <span className="text-[16px] font-bold text-[var(--text-primary)] tabular-nums block">
+                            {effectiveUiScalePct}%
+                          </span>
+                          <span className="text-[11px] text-[var(--text-secondary)] block">
+                            Skala aktif
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={stepUiScaleUp}
+                          disabled={effectiveUiScalePct >= UI_SCALE_STEPS[UI_SCALE_STEPS.length - 1]}
+                          aria-label="Perbesar ukuran tampilan"
+                          className="min-h-[44px] min-w-[44px] rounded-[var(--radius-xs)] bg-[var(--surface-solid)] hover:bg-[var(--surface-elevated)] disabled:opacity-40 disabled:cursor-not-allowed border border-[var(--border-strong)] text-[var(--text-primary)] inline-flex items-center justify-center cursor-pointer hig-transition hig-focus"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      {/* Quick Step Buttons (90%, 100%, 110%, 125%, 150%) */}
+                      <div
+                        role="group"
+                        aria-label="Pilihan persentase ukuran tampilan"
+                        className="grid grid-cols-5 gap-1"
+                      >
+                        {UI_SCALE_STEPS.map((step) => {
+                          const isCurrent = effectiveUiScalePct === step;
+                          return (
+                            <button
+                              key={step}
+                              type="button"
+                              onClick={() => setUiScaleStep(step)}
+                              aria-label={`Atur ukuran tampilan ke ${step}%`}
+                              aria-pressed={uiScaleMode === 'manual' && uiScaleStep === step}
+                              className={`min-h-[44px] px-1 rounded-[var(--radius-xs)] text-[11px] font-bold tabular-nums border inline-flex items-center justify-center cursor-pointer hig-transition hig-focus ${
+                                isCurrent
+                                  ? 'bg-[var(--accent-tint)] text-[var(--accent-primary)] border-[var(--accent-primary)]/40'
+                                  : 'bg-[var(--surface-solid)] text-[var(--text-secondary)] border-[var(--border-hairline)] hover:text-[var(--text-primary)]'
+                              }`}
+                            >
+                              {step}%
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Notifications Button & Popover (Closes on Escape, outside click, and navigation) */}
             <div ref={notifContainerRef} className="relative">
               <IconButton
                 label="Notifikasi sistem"
                 badgeDot={unreadNotificationCount > 0}
                 active={notifPopoverOpen}
-                onClick={() => setNotifPopoverOpen((prev) => !prev)}
+                onClick={() => {
+                  setScalePopoverOpen(false);
+                  setNotifPopoverOpen((prev) => !prev);
+                }}
               >
                 <Bell className="w-5 h-5" />
               </IconButton>
@@ -701,7 +901,7 @@ export const AppShell: React.FC = () => {
         <main
           className={
             isViewportLockedInbox
-              ? 'h-[calc(100dvh-7.5rem-env(safe-area-inset-bottom,0px))] md:h-[calc(100dvh-4rem)] overflow-hidden p-2 md:p-4 max-w-[1440px] w-full mx-auto flex flex-col'
+              ? 'h-[calc(var(--effective-vh)-7.5rem-env(safe-area-inset-bottom,0px))] md:h-[calc(var(--effective-vh)-4rem)] overflow-hidden p-2 md:p-4 max-w-[1440px] w-full mx-auto flex flex-col'
               : 'flex-1 p-5 md:p-8 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] md:pb-12 w-full'
           }
         >

@@ -104,7 +104,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
   return (
     <div className="space-y-4">
       {/* ====================================================================
-       * 1. TOP ACTION TOOLBAR (GlassChrome) — Production Controls Only
+       * 1. TOP ACTION TOOLBAR (GlassChrome) - Production Controls Only
        * ==================================================================== */}
       <GlassChrome
         as="section"
@@ -239,14 +239,14 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                     </h2>
                     {shop.isDisqualified && (
                       <span className="px-2 py-0.5 rounded-[6px] text-[11px] font-bold bg-[var(--status-danger-bg)] text-[var(--status-danger)] border border-[var(--status-danger-border)]">
-                        ● Bukan target
+                        Bukan target
                       </span>
                     )}
                   </div>
                   <div className="text-[12px] text-[var(--text-secondary)] flex items-center gap-1.5 flex-wrap tabular-nums">
                     <span>ID Lead: {shop.leadIdNumber}</span>
                     <span>·</span>
-                    <span>{shop.city || '—'}</span>
+                    <span>{shop.city || 'Belum diisi'}</span>
                     <span>·</span>
                     <span>Sesi: {shop.waSessionLabel}</span>
                     <span>·</span>
@@ -254,11 +254,11 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                   </div>
                 </div>
 
-                {/* Status Badges (Single Status Badge + Optional Tier/Score Badge — No Duplicate) */}
+                {/* Status Badges (Single Status Badge + Optional Tier/Score Badge - No Duplicate) */}
                 <div className="flex flex-wrap items-center gap-1.5 shrink-0">
                   {shop.score !== null && (
                     <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[var(--status-warning-bg)] text-[var(--status-warning)] border border-[var(--status-warning-border)] tabular-nums">
-                      ● {shop.tier} · Skor {shop.score} ({shop.coveragePercent}% cakupan)
+                      {shop.tier} · Skor {shop.score} ({shop.coveragePercent}% cakupan)
                     </span>
                   )}
                   <span
@@ -270,7 +270,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                           : 'bg-[var(--surface-recessed)] text-[var(--text-secondary)] border-[var(--border-hairline)]'
                     }`}
                   >
-                    ● {shop.chatStatusLabel}
+                    {shop.chatStatusLabel}
                   </span>
                 </div>
               </div>
@@ -282,7 +282,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                     Alamat
                   </div>
                   <div className="font-medium text-[var(--text-primary)]">
-                    {shop.fullAddress || '—'}
+                    {shop.fullAddress || 'Belum diisi'}
                   </div>
                   {shop.googleMapsUrl && (
                     <a
@@ -521,7 +521,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                         }`}
                       >
                         <div className="flex items-center justify-between gap-2 text-[11px] font-semibold text-[var(--text-secondary)] mb-1">
-                          <span>{isShop ? '🏪 Toko' : '👤 Sales'}</span>
+                          <span>{isShop ? 'Toko' : 'Sales'}</span>
                           <span className="tabular-nums">{msg.timestampWib}</span>
                         </div>
                         <p className="text-[13px] text-[var(--text-primary)] leading-relaxed">
@@ -664,7 +664,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                   Riwayat Percakapan ({shop.chatMessages.length} pesan)
                 </h3>
                 <span className="px-2 py-0.5 rounded-[5px] text-[11px] font-semibold bg-[var(--surface-recessed)] text-[var(--text-secondary)]">
-                  ● Transkrip Baca-Saja
+                  Transkrip Baca-Saja
                 </span>
               </div>
               <p className="text-[12px] text-[var(--text-secondary)] mt-0.5">
@@ -678,7 +678,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
               leftIcon={<MessageSquare className="w-4 h-4" />}
               onClick={() => onOpenShopInInbox(shop)}
             >
-              Buka di Inbox →
+              Buka di Inbox
             </Button>
           </div>
 
@@ -711,7 +711,7 @@ export const TokoDetailView: React.FC<TokoDetailViewProps> = ({
                   >
                     <div className="flex items-center justify-between gap-2 text-[11px] font-semibold text-[var(--text-secondary)] mb-1">
                       <span>
-                        {isShop ? `🏪 Toko (${shop.shopName})` : `👤 Sales (${msg.senderLabel})`}
+                        {isShop ? `Toko (${shop.shopName})` : `Sales (${msg.senderLabel})`}
                       </span>
                       <span className="tabular-nums">{msg.timestampWib}</span>
                     </div>
